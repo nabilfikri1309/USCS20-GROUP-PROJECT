@@ -8,7 +8,7 @@ double flycost(int,int,int);
 
 int main()
 {
-	string tempat;
+	int place ;
 	
 	
 	//table of prices
@@ -31,6 +31,9 @@ int main()
 	cout<<"\n|________________|______________|___________|___________|__________|";
 	cout<<"\n";
 	cout<<"1.Kuching \t2.Terengganu \t3.Kota Kinabalu \t4.Langkawi";
+
+	cout << " Choose the location you want to travel by entering this given numbers : " <<endl;
+	cin >> place ;
 	
 	//number of people
 	cout<<"\nEnter number of person"<<endl;
@@ -51,7 +54,7 @@ int main()
 	return 0;
 }
 
-/*double flycost(int tempat,int flycost,int totalfly)
+/*double flycost(int place,int flycost,int totalfly)
 {
 	cout<<"\nEnter location:";
 	cin>>tempat;
@@ -69,6 +72,8 @@ int main()
 	case 4
 	flycost=(adult*530)+(kids*530*0.1)+(teenage*530*0.6);
 	break;
+	default: 
+	  cout << " Error. Please enter the given option.";
 	
 }*/
 
