@@ -13,6 +13,7 @@ int main()
 	
 	//table of prices
 	cout<<"Welcome to Enjoy&Enjoy Travels Agency."<<endl;
+	cout << "This is the table for our travel services options based on the location, flight price and hotel price per night."<<endl;
 	cout<<"\n====================================================================";
 	cout<<"\n                        ENJOY&ENJOY TRAVELS";
 	cout<<"\n====================================================================";
@@ -33,7 +34,7 @@ int main()
 	
 	//number of people
 	cout<<"\nEnter number of person"<<endl;
-	cout<<"\nAdult:";
+	cout<<"\n Adult:";
 	cin>>adult;
 	cout<<"\nChildren (Age 2 and below):";
 	cin>>kids;
