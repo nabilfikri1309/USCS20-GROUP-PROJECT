@@ -50,7 +50,7 @@ int main()
 	cout<<"\nEnter number of days:";
 	//cin>>days;
 	
-	flycost= double flycost(place,adults,kids,teenage);
+	flight= double flycost(place,adults,kids,teenage);
 
 	
 	return 0;
@@ -73,7 +73,7 @@ double flycost(int location,int dewasa,int kids1,int kids2)//calculate flight co
 	break;
 	default: 
 	  cout << " Error. Please enter the given option.";
-	return flycost;
+	return flight;
 }
 
 
