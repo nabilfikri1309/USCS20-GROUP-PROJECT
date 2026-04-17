@@ -5,10 +5,11 @@
 using namespace std;
 
 double flycost(int,int,int);
+int flycost;//global variable
 
 int main()
 {
-	int place ;
+	int place ;//(1/2/3/4)
 	
 	
 	//table of prices
@@ -37,8 +38,8 @@ int main()
 	
 	//number of people
 	cout<<"\nEnter number of person"<<endl;
-	cout<<"\n Adult:";
-	cin>>adult;
+	cout<<"\n Adults:";
+	cin>>adults;
 	cout<<"\nChildren (Age 2 and below):";
 	cin>>kids;
 	cout<<"\nChildren (Age 3 to 12): ";
@@ -49,32 +50,30 @@ int main()
 	cout<<"\nEnter number of days:";
 	//cin>>days;
 	
-//	double flycost(location)
+	flycost= double flycost(place,adults,kids,teenage);
+
 	
 	return 0;
 }
 
-/*double flycost(int place,int flycost,int totalfly)
+double flycost(int location,int dewasa,int kids1,int kids2)//calculate flight cost
 {
-	cout<<"\nEnter location:";
-	cin>>tempat;
-	
-	switch(tempat)
-	case 1
-	flycost=(adult*750)+(kids*750*0.1)+(teenage*750*0.6);
+	switch(location)
+	case 1:
+	flycost=(adult*750)+(kids1*750*0.1)+(kids2*750*0.6);
 	break;
-	case 2
-	flycost=(adult*420)+(kids*420*0.1)+(teenage*420*0.6);
+	case 2:
+	flycost=(adult*420)+(kids1*420*0.1)+(kids2*420*0.6);
 	break;
-	case 3
-	flycost=(adult*1300)+(kids*1300*0.1)+(teenage*1300*0.6);
+	case 3:
+	flycost=(adult*1300)+(kids1*1300*0.1)+(kids2*1300*0.6);
 	break;
-	case 4
-	flycost=(adult*530)+(kids*530*0.1)+(teenage*530*0.6);
+	case 4:
+	flycost=(adult*530)+(kids1*530*0.1)+(kids2*530*0.6);
 	break;
 	default: 
 	  cout << " Error. Please enter the given option.";
-	
-}*/
+	return flycost;
+}
 
 
