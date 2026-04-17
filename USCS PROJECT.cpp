@@ -5,7 +5,7 @@
 using namespace std;
 
 double flycost(int,int,int);
-int flycost;//global variable
+int flight;//global variable
 
 int main()
 {
@@ -60,16 +60,16 @@ double flycost(int location,int dewasa,int kids1,int kids2)//calculate flight co
 {
 	switch(location)
 	case 1:
-	flycost=(adult*750)+(kids1*750*0.1)+(kids2*750*0.6);
+	flight=(adult*750)+(kids1*750*0.1)+(kids2*750*0.6);
 	break;
 	case 2:
-	flycost=(adult*420)+(kids1*420*0.1)+(kids2*420*0.6);
+	flight=(adult*420)+(kids1*420*0.1)+(kids2*420*0.6);
 	break;
 	case 3:
-	flycost=(adult*1300)+(kids1*1300*0.1)+(kids2*1300*0.6);
+	flight=(adult*1300)+(kids1*1300*0.1)+(kids2*1300*0.6);
 	break;
 	case 4:
-	flycost=(adult*530)+(kids1*530*0.1)+(kids2*530*0.6);
+	flight=(adult*530)+(kids1*530*0.1)+(kids2*530*0.6);
 	break;
 	default: 
 	  cout << " Error. Please enter the given option.";
