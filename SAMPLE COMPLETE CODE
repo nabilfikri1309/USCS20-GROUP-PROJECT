@@ -1,0 +1,194 @@
+/* Name: [Your Name]
+   Student ID: [Your ID]
+   Class: [Your Class]
+   Project: Enjoy&Enjoy Travel Management System
+   Due Date: 21 April 2026
+*/
+
+#include <iostream>
+#include <string>    
+#include <iomanip>   
+#include <fstream>   
+
+using namespace std;
+
+// Global Variables (To store calculation results and business totals)
+double flight;
+double total_income = 0;
+int v_Kuching = 0, v_Terengganu = 0, v_KK = 0, v_Langkawi = 0;
+double highestBill = 0;
+int highestBillID = 0;
+
+// Function Prototypes (Applying Chapter 6: Functions)
+double flycost(int location, int dewasa, int k1, int k2);
+double roomcost(int location, int type, int nights, int rooms);
+
+int main() {
+    int idCounter = 1;
+    string action = "yes";
+
+    // 1. PERSISTENT MEMORY: LOAD PREVIOUS DATA (Chapter 9: fstream)
+    // This allows the company to compare current groups with all previous groups
+    ifstream inFile("travel_memory.txt");
+    if (inFile) {
+        inFile >> idCounter >> total_income >> v_Kuching >> v_Terengganu >> v_KK >> v_Langkawi >> highestBill >> highestBillID;
+        inFile.close();
+    }
+
+    // --- STAFF PORTAL DASHBOARD (Chapter 2 & 3: I/O and Manipulators) ---
+    cout << "==========================================================================" << endl;
+    cout << "                STAFF PORTAL: ENJOY&ENJOY TRAVEL RATES                    " << endl;
+    cout << "==========================================================================" << endl;
+    cout << "+----+------------------+------------+--------+--------+--------+" << endl;
+    cout << "| ID | Location         | Flight/pax | Single | Deluxe | Suite  |" << endl;
+    cout << "+----+------------------+------------+--------+--------+--------+" << endl;
+    cout << "| 1  | Kuching          | RM 750     | RM 140 | RM 230 | RM 350 |" << endl;
+    cout << "| 2  | Terengganu       | RM 420     | RM 150 | RM 220 | RM 330 |" << endl;
+    cout << "| 3  | Kota Kinabalu    | RM 1300    | RM 120 | RM 180 | RM 275 |" << endl;
+    cout << "| 4  | Langkawi         | RM 530     | RM 160 | RM 240 | RM 350 |" << endl;
+    cout << "+----+------------------+------------+--------+--------+--------+" << endl;
+    cout << " * Note: Children 0-2 (10% charge), 3-12 (40% discount)" << endl;
+    cout << " * Note: 10% Hotel discount applied for stays over 7 nights" << endl;
+    cout << "==========================================================================" << endl;
+
+    cout << "\nProceed to enter new travel group? (yes/stop): ";
+    cin >> action;
+
+    // 2. MAIN PROCESSING LOOP (Chapter 5: Loops)
+    while (action != "stop" && action != "no") {
+        int loc, adl, k1, k2, roomType, nights, numRooms;
+        
+        cout << "\n[ SYSTEM LOG: Group ID " << setfill('0') << setw(3) << idCounter << " ]" << endl;
+        setfill(' '); // Resetting fill for inputs
+
+        cout << "Enter Location Selection (1-4): "; cin >> loc;
+        cout << "Adult Count: "; cin >> adl;
+        cout << "Child (0-2) Count: "; cin >> k1;
+        cout << "Child (3-12) Count: "; cin >> k2;
+        cout << "Room Type (1:Single, 2:Deluxe, 3:Suite): "; cin >> roomType;
+        cout << "Number of Nights: "; cin >> nights;
+        cout << "Number of Rooms: "; cin >> numRooms;
+
+        // Process Calculations through Functions
+        double currentFlight = flycost(loc, adl, k1, k2);
+        double currentHotel = roomcost(loc, roomType, nights, numRooms);
+        double groupTotal = currentFlight + currentHotel;
+
+        // Update Cumulative Statistics (The "Memory" updates)
+        total_income += groupTotal;
+        int groupPeopleCount = adl + k1 + k2;
+        
+        // Tracking visitors per location
+        if (loc == 1) v_Kuching += groupPeopleCount;
+        else if (loc == 2) v_Terengganu += groupPeopleCount;
+        else if (loc == 3) v_KK += groupPeopleCount;
+        else if (loc == 4) v_Langkawi += groupPeopleCount;
+
+        // Identify Group with the Highest Bill (Chapter 4: Selection)
+        if (groupTotal > highestBill) {
+            highestBill = groupTotal;
+            highestBillID = idCounter;
+        }
+
+        // Output Bill for the current group
+        cout << fixed << setprecision(2);
+        cout << "\n--------------------------------------------------" << endl;
+        cout << "   BILLING SUMMARY FOR ID " << setfill('0') << setw(3) << idCounter << endl;
+        setfill(' ');
+        cout << "   Flight Total   : RM " << setw(10) << currentFlight << endl;
+        cout << "   Hotel Total    : RM " << setw(10) << currentHotel << endl;
+        cout << "   GROUP GRAND TOTAL: RM " << setw(10) << groupTotal << endl;
+        cout << "--------------------------------------------------" << endl;
+
+        // Increment ID only after a valid, completed record
+        idCounter++; 
+
+        cout << "\nAdd another group entry? (yes/stop): ";
+        cin >> action;
+    }
+
+    // 3. IDENTIFY MOST POPULAR LOCATION (Selection Logic)
+    string popularLocName;
+    int highestVisitorCount = v_Kuching;
+    popularLocName = "Kuching";
+
+    if (v_Terengganu > highestVisitorCount) { 
+        highestVisitorCount = v_Terengganu; 
+        popularLocName = "Terengganu"; 
+    }
+    if (v_KK > highestVisitorCount) { 
+        highestVisitorCount = v_KK; 
+        popularLocName = "Kota Kinabalu"; 
+    }
+    if (v_Langkawi > highestVisitorCount) { 
+        highestVisitorCount = v_Langkawi; 
+        popularLocName = "Langkawi"; 
+    }
+
+    // 4. SAVE AND EXPORT DATA (Chapter 9: fstream)
+    
+    // File A: Hidden Memory File (For the program to read next time)
+    ofstream outFile("travel_memory.txt");
+    if (outFile) {
+        outFile << idCounter << " " << total_income << " " << v_Kuching << " " 
+                << v_Terengganu << " " << v_KK << " " << v_Langkawi << " " 
+                << highestBill << " " << highestBillID;
+        outFile.close();
+    }
+
+    // File B: Management Report (Readable text for the manager)
+    ofstream report("Management_Summary.txt"); 
+    report << "==================================================" << endl;
+    report << "     ENJOY&ENJOY TRAVEL: BUSINESS REPORT          " << endl;
+    report << "==================================================" << endl;
+    report << "Total Groups Processed   : " << idCounter - 1 << endl;
+    report << "Total Company Revenue    : RM " << fixed << setprecision(2) << total_income << endl;
+    report << "Most Popular Destination : " << popularLocName << " (" << highestVisitorCount << " visitors)" << endl;
+    report << "All-Time Highest Bill    : Group " << setfill('0') << setw(3) << highestBillID 
+           << " (RM " << highestBill << ")" << endl;
+    report << "==================================================" << endl;
+    report.close();
+
+    cout << "\n[ SYSTEM: Success. Business summary saved to 'Management_Summary.txt' ]" << endl;
+
+    return 0;
+}
+
+// --- CHAPTER 6 FUNCTIONS ---
+
+// Function for Flight Costs with Age Logic (using Switch as requested)
+double flycost(int location, int dewasa, int k1, int k2) {
+    switch(location) {
+        case 1: flight = (dewasa * 750) + (k1 * 750 * 0.1) + (k2 * 750 * 0.6); break;
+        case 2: flight = (dewasa * 420) + (k1 * 420 * 0.1) + (k2 * 420 * 0.6); break;
+        case 3: flight = (dewasa * 1300) + (k1 * 1300 * 0.1) + (k2 * 1300 * 0.6); break;
+        case 4: flight = (dewasa * 530) + (k1 * 530 * 0.1) + (k2 * 530 * 0.6); break;
+        default: flight = 0;
+    }
+    return flight;
+}
+
+// Function for Accommodation with Nested Selection and Math
+double roomcost(int location, int type, int nights, int rooms) {
+    double price = 0;
+    
+    // Mapping Location and Room Type to Prices
+    if (location == 1) { // Kuching
+        if (type == 1) price = 140; else if (type == 2) price = 230; else price = 350;
+    } else if (location == 2) { // Terengganu
+        if (type == 1) price = 150; else if (type == 2) price = 220; else price = 330;
+    } else if (location == 3) { // KK
+        if (type == 1) price = 120; else if (type == 2) price = 180; else price = 275;
+    } else { // Langkawi
+        if (type == 1) price = 160; else if (type == 2) price = 240; else price = 350;
+    }
+
+    double subtotal = price * nights * rooms;
+    
+    // Apply 10% discount for stays exceeding 7 nights
+    if (nights > 7) {
+        subtotal = subtotal * 0.90; 
+    }
+    
+    return subtotal;
+}
