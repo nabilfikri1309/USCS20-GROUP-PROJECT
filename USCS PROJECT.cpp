@@ -5,12 +5,18 @@
 using namespace std;
 
 double flycost(int,int,int);
-int flight;//global variable
+double roomcost(int,int,int,int);
+
+//global variable
+int flight;
+int accomodation;
 
 int main()
 {
 	int place ;//(1/2/3/4)
-	
+	int days,numroom;//for accomodation calculation
+	int idcounter=1;
+	string action="yes";//to determine continue or not
 	
 	//table of prices
 	cout<<"Welcome to Enjoy&Enjoy Travels Agency."<<endl;
@@ -33,7 +39,7 @@ int main()
 	cout<<"\n";
 	cout<<"1.Kuching \t2.Terengganu \t3.Kota Kinabalu \t4.Langkawi";
 
-	cout << " Choose the location you want to travel by entering this given numbers : " <<endl;
+	cout << " Choose the location of travel by entering this given numbers : " <<endl;
 	cin >> place ;
 	
 	//number of people
@@ -44,13 +50,14 @@ int main()
 	cin>>kids;
 	cout<<"\nChildren (Age 3 to 12): ";
 	cin>>teenage;
-	cout<<"\nTotal person: ";
+	cout<<"\nTotal person: "<<adults+kids+teenage;
 	
 	//days of hotel stay
 	cout<<"\nEnter number of days:";
 	//cin>>days;
 	
 	flight= double flycost(place,adults,kids,teenage);
+	accomodation = double roomcost(place,roomtype,days,numroom);
 
 	
 	return 0;
@@ -75,5 +82,56 @@ double flycost(int location,int dewasa,int kids1,int kids2)//calculate flight co
 	  cout << " Error. Please enter the given option.";
 	return flight;
 }
+
+double roomcost(int location, int type, int night, int rooms)
+{
+	double price;
+if(location==1)
+{
+if(type==1)
+	price=140;
+else if (type==2)
+	price=230;
+else
+	price=350;
+}
+else if(location==2)
+{
+if(type==1)
+	price=;
+else if(type==2)
+	price=;
+else
+	price=;
+}
+else if(location==3)
+{
+if(type==1)
+	price=;
+else if(type==2)
+	price=;
+else
+	price=;
+}
+else
+{
+if(type==1)
+	price=;
+else if(type==2)
+	price=;
+else
+	price=;
+}
+
+double totalroom = price*night*rooms;
+
+if(night>7)
+{
+totalroom=totalroom*0.9;
+}
+
+return totalroom;
+}
+
 
 
