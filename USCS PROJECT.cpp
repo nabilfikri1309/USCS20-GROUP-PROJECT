@@ -6,25 +6,49 @@ using namespace std;
 
 double flycost(int,int,int,int);
 double roomcost(int,int);
+int getMostPopular(int, int, int, int);
 
 //global variable
 double totalIncome = 0;
 double highestBill = 0.0;
 int highestBillID = 0;
+string highestBillLocation = " ";
 
-
-int VisitorsK=0, VisitorsT=0, VisitorsKK=0, VisitorsL=0;
+//int VisitorsK=0, VisitorsT=0, VisitorsKK=0, VisitorsL=0;
 
 int main()
 {
 	int place, roomtype ;//(1/2/3/4)
 	int days,numroom;//for accomodation calculation
 	int adults, teenage, kids;
-	int idcounter=1;
+	int idCounter=1;
+	//double income_KK = 0.0, income_K=0.0, income_T=0.0, income_L=0.0;
 	string action="yes";//to determine continue or not
+	
+	double incomeLoc[5] = {0,0,0,0,0};
+	int visitorsLoc[5] = {0,0,0,0,0};
+	string locationNames[5]= {"", "Kuching", "Terengganu", "Kota Kinabalu", "Langkawi"};
+	
+	
+	ifstream inFile ("travel_data.txt") ;
+	
+	if (inFile.fail()) {
+		cout<<"The file is unsuccessful to be opened. "<<endl;
+	
+	}
+	
+	else {
+			inFile>>idCounter>>totalIncome >> highestBill >> highestBillID
+           >> incomeLoc[1] >> incomeLoc[2] >> incomeLoc[3] >> incomeLoc[4]
+           >> visitorsLoc[1] >> visitorsLoc[2] >> visitorsLoc[3] >> visitorsLoc[4];
+		inFile.close() ;
+		
+		
+	}
 
-	ifstream inFile
+	
 
+	
 	
 	//table of prices
 	cout<<"Welcome to Enjoy&Enjoy Travels Agency."<<endl;
@@ -64,66 +88,126 @@ int main()
 	cout<<"Children (Age 2 and below): ";cin>>kids;
 	cout<<"Children (Age 3 to 12): ";cin>>teenage;
 	
-	int visitorsTotal = adults+teenage+kids;
+	//int visitorsTotal = adults+teenage+kids;
 	
-	cout<<"Total person: "<<visitorsTotal<<endl;
 	
-	cout<<"Room Selection (1:Single, 2:Deluxe, 3:Suite): "; cin>>roomtype;
-	//days of hotel stay
+	cout<<"Total person: "<<adults+kids+teenage<<endl;
+	
+//	cout<<"Room Selection (1:Single, 2:Deluxe, 3:Suite): "; cin>>roomtype;
+//	//days of hotel stay
 	cout<<"Enter number of days: "; cin>>days;
 	cout<<"Enter number of rooms: "; cin>>numroom;
 
 	
 	double flight=  flycost(place,adults,kids,teenage);
-	double accommodation = roomcost (place,days);
+	double accomodation = roomcost (place,days);
 	double totalCost = flight + accomodation;
 	
-	totalIncome += totalCost;
 	
+//	Total Income Company
+	totalIncome += totalCost;
+	incomeLoc[place] += totalCost;
+	visitorsLoc[place] += (adults + teenage + kids);
 	
 	//Highest Group Billing
 	if (totalCost > highestBill) {
 		highestBill = totalCost;
-		highestBillID = idcounter;
+		highestBillID = idCounter;
+		highestBillLocation = locationNames[place];
 	}
 	
 	//Count Visitors
-	if (place == 1) {
-		VisitorsK += visitorsTotal;
-	}
-	else if (place == 2) {
-		VisitorsT += visitorsTotal;
-	}
-	else if (place == 3) {
-		VisitorsKK += visitorsTotal;
-	}
-	else if (place == 4) {
-		VisitorsL += visitorsTotal;
-	}
+//	if (place == 1) {
+//		VisitorsK += totalCost;
+//	}
+//	else if (place == 2) {
+//		VisitorsT += totalCost;
+//	}
+//	else if (place == 3) {
+//		VisitorsKK += totalCost;
+//	}
+//	else if (place == 4) {
+//		VisitorsL += totalCost;
+//	}
 	
-	cout<<fixed<<setprecision(2) << endl;
-	cout<< setfill ('-') << setw(30) << endl;
-	cout<<"Billing status for ID "<<setfill('0')<<setw(3)<<endl;
-	setfill(' ');
+	//Total income each location
+	incomeLoc[place] += totalCost;
+	
+//	cout<<fixed<<setprecision(2) << endl;
+//	cout<< setfill ('-') << setw(30) <<"-" << endl;
+//	cout<<"Billing status for ID "<<endl;
+//	cout<< setfill ('-') << setw(30) <<"-" << endl;
+//	cout<<setfill('0')<<setw(3);
+//	cout<<" Flight total : RM "<<setw(10)<<flight<<endl;
+//	cout<<" Hotel total  : RM "<<setw(10)<<accomodation<<endl;
+//	cout<<" Overall total: RM "<<setw(10)<<totalCost<<endl;
+//	cout<< setfill ('-') << setw(30) << "-" << endl;
+	
+	cout<<fixed<<setprecision(2)<<endl;
+	cout<<"*============================*"<<endl;
+	cout<<"    Billing status for ID     "<<endl;
+	cout<<"------------------------------"<<endl;
 	cout<<" Flight total : RM "<<setw(10)<<flight<<endl;
 	cout<<" Hotel total  : RM "<<setw(10)<<accomodation<<endl;
-	cout<<" Overall total : RM "<<setw(10)<<totalCost<<endl;
-	cout<< setfill ('-') << setw(30) << endl;
+	cout<<"______________________________"<<endl;
+	cout<<" Overall total: RM "<<setw(10)<<totalCost<<endl;
+	cout<<"______________________________"<<endl;
 	
-	idcounter++;
+	idCounter++;
 	
 	cout<<"\nAdd another group entry? (yes/no): ";
 	cin>>action;
 	
-	return 0;
+	
 	}
+	int FamPlace = getMostPopular(visitorsLoc[1], visitorsLoc[2], visitorsLoc[3], visitorsLoc[4]);
 
+	ofstream outFile("travel_memory.txt") ;
+	if (outFile) {
+		outFile << " ID : "      <<idCounter << " " 
+				<< "REVENUE : RM" <<totalIncome << " "
+				<< "HIGHEST PURCHASED: RM"<<highestBill << " "
+				<< "MOST FAMOUS: "<<highestBillLocation << endl;
+				
+				
+		outFile << "KUCHING : RM" <<incomeLoc[1] <<" "
+				<< "TERENGGANU : RM"<<incomeLoc[2] <<" "
+				<< "KOTA KINABALU : RM"<<incomeLoc[3] <<" "
+				<< "LANGKAWI : RM"<<incomeLoc[4] <<endl;
+				
+		outFile<< "KUCHING : "<<visitorsLoc[1] << " "
+			   << "TERENGGANU : "<<visitorsLoc[2] << " "
+			   << "KOTA KINABALU : "<<visitorsLoc[3] << " " 
+			   << "LANGKAWI : "<<visitorsLoc[4] <<endl;
+		  
+		  outFile.close();
+	}
+	
+	    // File B: Management Report (Readable text for the manager)
+    ofstream report("Management_System.txt"); 
+    report << "==================================================" << endl;
+    report << "     ENJOY&ENJOY TRAVEL: BUSINESS REPORT          " << endl;
+    report << "==================================================" << endl;
+    report << "Total Groups Processed   : " << idCounter - 1 << endl;
+    report << "Total Company Revenue    : RM " << fixed << setprecision(2) << totalIncome << endl;
+    report << "Most Popular Destination : " << locationNames[FamPlace]  << " (" << highestBillLocation << " visitors)" << endl;
+    report << "All-Time Highest Bill    : Group " << setfill('0') << setw(3) << highestBillID 
+           << " (RM " << highestBill << ")" << endl;
+    report << "==================================================" << endl;
+    report.close();
 
-double flycost(int location,int dewasa,int kids1,int kids2)//calculate flight cost
+	//idcounter, highestPlace, totalIncome, highestBill, EachLocIncome, 
+	//VisitorsK,VisitorsKK,VisitorsT,VisitorsL
+	//Highest visitor
+
+//	ofstream OutFile
+}
+
+double flycost(int location,int adult,int kids1,int kids2)//calculate flight cost
 {
 	
 	double total;
-	int adult;
+
 	
 	switch(location) {
 	
@@ -145,6 +229,7 @@ double flycost(int location,int dewasa,int kids1,int kids2)//calculate flight co
 	return total; 
 	
 	}
+
 
 
 double roomcost ( int location, int staynight  ) //calculate room cost 
@@ -230,7 +315,17 @@ do {
 	return accommodation ;
 	
 }
-
-
-
-
+//Most popular location
+int getMostPopular(int k, int t, int kk, int l) {
+	int counts[5] ={0,   k, t, kk, l};
+	int maxVal = counts[1];
+	int index = 1;
+	
+	for (int i =2; i<=4; i++) {
+		if (counts[i] >maxVal) {
+			maxVal = counts[i];
+			index = i;
+		}
+	}
+	return index;
+}
