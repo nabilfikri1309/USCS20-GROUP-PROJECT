@@ -22,7 +22,6 @@ int main()
 	int days,numroom;//for accomodation calculation
 	int adults, teenage, kids;
 	int idCounter=1;
-	//double income_KK = 0.0, income_K=0.0, income_T=0.0, income_L=0.0;
 	string action="yes";//to determine continue or not
 	
 	double incomeLoc[5] = {0,0,0,0,0};
@@ -88,13 +87,7 @@ int main()
 	cout<<"Children (Age 2 and below): ";cin>>kids;
 	cout<<"Children (Age 3 to 12): ";cin>>teenage;
 	
-	//int visitorsTotal = adults+teenage+kids;
-	
-	
 	cout<<"Total person: "<<adults+kids+teenage<<endl;
-	
-//	cout<<"Room Selection (1:Single, 2:Deluxe, 3:Suite): "; cin>>roomtype;
-//	//days of hotel stay
 	cout<<"Enter number of days: "; cin>>days;
 	cout<<"Enter number of rooms: "; cin>>numroom;
 
@@ -115,33 +108,12 @@ int main()
 		highestBillID = idCounter;
 		highestBillLocation = locationNames[place];
 	}
-	
-	//Count Visitors
-//	if (place == 1) {
-//		VisitorsK += totalCost;
-//	}
-//	else if (place == 2) {
-//		VisitorsT += totalCost;
-//	}
-//	else if (place == 3) {
-//		VisitorsKK += totalCost;
-//	}
-//	else if (place == 4) {
-//		VisitorsL += totalCost;
-//	}
+
 	
 	//Total income each location
 	incomeLoc[place] += totalCost;
 	
-//	cout<<fixed<<setprecision(2) << endl;
-//	cout<< setfill ('-') << setw(30) <<"-" << endl;
-//	cout<<"Billing status for ID "<<endl;
-//	cout<< setfill ('-') << setw(30) <<"-" << endl;
-//	cout<<setfill('0')<<setw(3);
-//	cout<<" Flight total : RM "<<setw(10)<<flight<<endl;
-//	cout<<" Hotel total  : RM "<<setw(10)<<accomodation<<endl;
-//	cout<<" Overall total: RM "<<setw(10)<<totalCost<<endl;
-//	cout<< setfill ('-') << setw(30) << "-" << endl;
+
 	
 	cout<<fixed<<setprecision(2)<<endl;
 	cout<<"*============================*"<<endl;
@@ -196,11 +168,8 @@ int main()
     report << "==================================================" << endl;
     report.close();
 
-	//idcounter, highestPlace, totalIncome, highestBill, EachLocIncome, 
-	//VisitorsK,VisitorsKK,VisitorsT,VisitorsL
-	//Highest visitor
 
-//	ofstream OutFile
+
 }
 
 double flycost(int location,int adult,int kids1,int kids2)//calculate flight cost
