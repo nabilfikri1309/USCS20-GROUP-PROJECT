@@ -101,6 +101,7 @@ int main()
 	totalIncome += totalCost;
 	incomeLoc[place] += totalCost;
 	visitorsLoc[place] += (adults + teenage + kids);
+	incomeLoc[place] += totalCost;
 	
 	//Highest Group Billing
 	if (totalCost > highestBill) {
@@ -108,11 +109,6 @@ int main()
 		highestBillID = idCounter;
 		highestBillLocation = locationNames[place];
 	}
-
-	
-	//Total income each location
-	incomeLoc[place] += totalCost;
-	
 
 	
 	cout<<fixed<<setprecision(2)<<endl;
