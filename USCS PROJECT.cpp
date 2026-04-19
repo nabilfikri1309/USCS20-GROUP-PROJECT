@@ -4,24 +4,31 @@
 #include<string>
 using namespace std;
 
-double flycost(int,int, int,int);
+double flycost(int,int,int,int);
 double roomcost(int,int);
 
 //global variable
-int flight;
-int accommodation;
+double totalIncome = 0;
+double highestBill = 0.0;
+int highestBillID = 0;
+
+
+int VisitorsK=0, VisitorsT=0, VisitorsKK=0, VisitorsL=0;
 
 int main()
 {
-	int place ;//(1/2/3/4)
-	int kids, teenage, adults;
+	int place, roomtype ;//(1/2/3/4)
 	int days,numroom;//for accomodation calculation
+	int adults, teenage, kids;
 	int idcounter=1;
 	string action="yes";//to determine continue or not
+
+	ifstream inFile
+
 	
 	//table of prices
 	cout<<"Welcome to Enjoy&Enjoy Travels Agency."<<endl;
-	cout << "This is the table for our travel services options based on the location, flight price and hotel price per night."<<endl;
+	cout<< "This is the table for our travel services options based on the location, flight price and hotel price per night."<<endl;
 	cout<<"\n====================================================================";
 	cout<<"\n                        ENJOY&ENJOY TRAVELS";
 	cout<<"\n====================================================================";
@@ -37,53 +44,107 @@ int main()
 	cout<<"\n|----------------|--------------|-----------|-----------|----------|";
 	cout<<"\n|    Langkawi    |     750      |    160    |    240    |   350    |";
 	cout<<"\n|________________|______________|___________|___________|__________|";
-	cout<<"\n";
-	cout<<"\n 1.Kuching \t2.Terengganu \t3.Kota Kinabalu \t4.Langkawi";
+	cout<<"\n====================================================================";
+	cout<<"\n * Note: Children 0-2 (10% charge), 3-12 (40% discount)";
+	cout<<"\n * Note: 10% Hotel discount applied for stays over 7 nights" ;
+	cout<<"\n====================================================================";
 
-	cout << " \n Choose the location of travel by entering this given numbers : " ;
+
+	cout<<"\nProceed to join this new travel group? (yes/no) "<<endl;
+	cin>>action;
+	
+	while (action != "no") {
+	cout <<"Choose the location of travel by entering this given numbers : " <<endl;
+	cout<<"1.Kuching \t2.Terengganu \t3.Kota Kinabalu \t4.Langkawi"<<endl;
 	cin >> place ;
 	
 	//number of people
-	cout<<"\nEnter number of person"<<endl;
-	cout<<"\n Adults:";
-	cin>>adults;
-	cout<<"\nChildren (Age 2 and below):";
-	cin>>kids;
-	cout<<"\nChildren (Age 3 to 12): ";
-	cin>>teenage;
-	cout<<"\nTotal person: "<<adults+kids+teenage;
+	cout<<"Enter number of person"<<endl;
+	cout<<"Adults: "; cin>>adults;
+	cout<<"Children (Age 2 and below): ";cin>>kids;
+	cout<<"Children (Age 3 to 12): ";cin>>teenage;
 	
+	int visitorsTotal = adults+teenage+kids;
+	
+	cout<<"Total person: "<<visitorsTotal<<endl;
+	
+	cout<<"Room Selection (1:Single, 2:Deluxe, 3:Suite): "; cin>>roomtype;
 	//days of hotel stay
-	cout<<"\nEnter number of days:";
-	//cin>>days;
-	
-	flight= flycost(place,adults,kids,teenage);
-	accommodation = roomcost(place, days);
+	cout<<"Enter number of days: "; cin>>days;
+	cout<<"Enter number of rooms: "; cin>>numroom;
 
 	
+	double flight=  flycost(place,adults,kids,teenage);
+	double accommodation = roomcost (place,days);
+	double totalCost = flight + accomodation;
+	
+	totalIncome += totalCost;
+	
+	
+	//Highest Group Billing
+	if (totalCost > highestBill) {
+		highestBill = totalCost;
+		highestBillID = idcounter;
+	}
+	
+	//Count Visitors
+	if (place == 1) {
+		VisitorsK += visitorsTotal;
+	}
+	else if (place == 2) {
+		VisitorsT += visitorsTotal;
+	}
+	else if (place == 3) {
+		VisitorsKK += visitorsTotal;
+	}
+	else if (place == 4) {
+		VisitorsL += visitorsTotal;
+	}
+	
+	cout<<fixed<<setprecision(2) << endl;
+	cout<< setfill ('-') << setw(30) << endl;
+	cout<<"Billing status for ID "<<setfill('0')<<setw(3)<<endl;
+	setfill(' ');
+	cout<<" Flight total : RM "<<setw(10)<<flight<<endl;
+	cout<<" Hotel total  : RM "<<setw(10)<<accomodation<<endl;
+	cout<<" Overall total : RM "<<setw(10)<<totalCost<<endl;
+	cout<< setfill ('-') << setw(30) << endl;
+	
+	idcounter++;
+	
+	cout<<"\nAdd another group entry? (yes/no): ";
+	cin>>action;
+	
 	return 0;
-}
+	}
+
 
 double flycost(int location,int dewasa,int kids1,int kids2)//calculate flight cost
 {
-	switch(location){
+	
+	double total;
+	int adult;
+	
+	switch(location) {
+	
 	case 1:
-	flight=(dewasa*750)+(kids1*750*0.1)+(kids2*750*0.6);
+	total=(adult*750)+(kids1*750*0.1)+(kids2*750*0.6);
 	break;
 	case 2:
-	flight=(dewasa*420)+(kids1*420*0.1)+(kids2*420*0.6);
+	total=(adult*420)+(kids1*420*0.1)+(kids2*420*0.6);
 	break;
 	case 3:
-	flight=(dewasa*1300)+(kids1*1300*0.1)+(kids2*1300*0.6);
+	total=(adult*1300)+(kids1*1300*0.1)+(kids2*1300*0.6);
 	break;
 	case 4:
-	flight=(dewasa*530)+(kids1*530*0.1)+(kids2*530*0.6);
+	total=(adult*530)+(kids1*530*0.1)+(kids2*530*0.6);
 	break;
 	default: 
-	  cout << " Error. Please enter the given option.";
-}
-	return flight;
-}
+	cout << " Error. Please enter the given option.";
+	}
+	return total; 
+	
+	}
 
 
 double roomcost ( int location, int staynight  ) //calculate room cost 
