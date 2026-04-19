@@ -129,7 +129,7 @@ int main()
 	
 	}
 	int FamPlace = getMostPopular(visitorsLoc[1], visitorsLoc[2], visitorsLoc[3], visitorsLoc[4]);
-
+//File A: Datas Recorded
 	ofstream outFile("travel_memory.txt") ;
 	if (outFile) {
 		outFile << " ID : "      <<idCounter << " " 
