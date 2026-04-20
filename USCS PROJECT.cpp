@@ -21,18 +21,13 @@ int main()
 	int place, roomtype ;//(1/2/3/4)
 	int days,numroom;//for accomodation calculation
 	int adults, teenage, kids;
-	int idCounter=1;
+	int idUsername;
+	//double income_KK = 0.0, income_K=0.0, income_T=0.0, income_L=0.0;
 	string action="yes";//to determine continue or not
 	
 	double incomeLoc[5] = {0,0,0,0,0};
 	int visitorsLoc[5] = {0,0,0,0,0};
 	string locationNames[5]= {"", "Kuching", "Terengganu", "Kota Kinabalu", "Langkawi"};
-	
-
-
-	
-
-	
 	
 	//table of prices
 	cout<<"Welcome to Enjoy&Enjoy Travels Agency."<<endl;
@@ -46,14 +41,14 @@ int main()
 	cout<<"\n|----------------|--------------|-----------|-----------|----------|";
 	cout<<"\n|     Kuching    |     750      |    140    |    230    |   350    |";
 	cout<<"\n|----------------|--------------|-----------|-----------|----------|";
-	cout<<"\n|   Terengganu   |     750      |    150    |    220    |   330    |";
+	cout<<"\n|   Terengganu   |     420      |    150    |    220    |   330    |";
 	cout<<"\n|----------------|--------------|-----------|-----------|----------|";
-	cout<<"\n| Kota Kinabalu  |     750      |    120    |    180    |   275    |";
+	cout<<"\n| Kota Kinabalu  |    1300      |    120    |    180    |   275    |";
 	cout<<"\n|----------------|--------------|-----------|-----------|----------|";
-	cout<<"\n|    Langkawi    |     750      |    160    |    240    |   350    |";
+	cout<<"\n|    Langkawi    |     530      |    160    |    240    |   350    |";
 	cout<<"\n|________________|______________|___________|___________|__________|";
 	cout<<"\n====================================================================";
-	cout<<"\n * Note: Children 0-2 (10% charge), 3-12 (40% discount)";
+	cout<<"\n * Note: Children Age 0-2 (10% charge), Age 3-12 (40% discount)";
 	cout<<"\n * Note: 10% Hotel discount applied for stays over 7 nights" ;
 	cout<<"\n====================================================================";
 
@@ -61,20 +56,31 @@ int main()
 	cout<<"\nProceed to join this new travel group? (yes/no) "<<endl;
 	cin>>action;
 	
-	while (action != "no") {
-	cout <<"Choose the location of travel by entering this given numbers : " <<endl;
+	while (action == "yes" || action == "YES") {
 	cout<<"1.Kuching \t2.Terengganu \t3.Kota Kinabalu \t4.Langkawi"<<endl;
-	cin >> place ;
+	cout <<"Choose the location of travel by entering this given numbers : "; cin >> place ;
+	if (place <1 || place > 4) {
+		cout<<"Invalid location selection! "<<endl;
+		continue;
+	}
+	cout<<"\nEnter username ID : ";cin>>idUsername;
 	
 	//number of people
-	cout<<"Enter number of person"<<endl;
-	cout<<"Adults: "; cin>>adults;
-	cout<<"Children (Age 2 and below): ";cin>>kids;
-	cout<<"Children (Age 3 to 12): ";cin>>teenage;
+	cout<<"\n=============================";
+	cout<<"\n  Enter number of person     ";
+	cout<<"\n=============================";
+	cout<<"\nAdults                    :"; cin>>adults;
+	cout<<"\nChildren (Age 2 and below):";cin>>kids;
+	cout<<"\nChildren (Age 3 to 12)    :";cin>>teenage;
+	cout<<"\nTotal person              :"<<adults+kids+teenage<<endl;
+	//int visitorsTotal = adults+teenage+kids
 	
-	cout<<"Total person: "<<adults+kids+teenage<<endl;
-	cout<<"Enter number of days: "; cin>>days;
-	cout<<"Enter number of rooms: "; cin>>numroom;
+
+//	cout<<"Room Selection (1:Single, 2:Deluxe, 3:Suite): "; cin>>roomtype;
+//	//days of hotel stay
+	cout<<"\n=============================";
+	cout<<"\nEnter number of days : "; cin>>days;
+	cout<<"Enter number of rooms:  "; cin>>numroom;
 
 	
 	double flight=  flycost(place,adults,kids,teenage);
@@ -86,15 +92,14 @@ int main()
 	totalIncome += totalCost;
 	incomeLoc[place] += totalCost;
 	visitorsLoc[place] += (adults + teenage + kids);
-	incomeLoc[place] += totalCost;
 	
 	//Highest Group Billing
 	if (totalCost > highestBill) {
 		highestBill = totalCost;
-		highestBillID = idCounter;
+		highestBillID = idUsername;
 		highestBillLocation = locationNames[place];
 	}
-
+	
 	
 	cout<<fixed<<setprecision(2)<<endl;
 	cout<<"*============================*"<<endl;
@@ -106,17 +111,17 @@ int main()
 	cout<<" Overall total: RM "<<setw(10)<<totalCost<<endl;
 	cout<<"______________________________"<<endl;
 	
-	idCounter++;
+//	ofstream history("transaction_history.txt", ios::app);
+//        history << "ID:" << idUsername << " | Dest:" << locationNames[place] 
+//                << " | Paid:RM" << totalCost << endl;
+//        history.close();
 	
 	cout<<"\nAdd another group entry? (yes/no): ";
 	cin>>action;
 	
 	
 	}
-	int FamPlace = getMostPopular(visitorsLoc[1], visitorsLoc[2], visitorsLoc[3], visitorsLoc[4]);
-//File A: Datas Recorded
-
-		
+	
 		ifstream inFile ("travel_data.txt", ios::app) ;
 	
 	if (inFile.fail()) {
@@ -124,35 +129,41 @@ int main()
 	
 	}
 	
-	else {
-			inFile>>idCounter>>totalIncome >> highestBill >> highestBillID
-           >> incomeLoc[1] >> incomeLoc[2] >> incomeLoc[3] >> incomeLoc[4]
-           >> visitorsLoc[1] >> visitorsLoc[2] >> visitorsLoc[3] >> visitorsLoc[4];
+	
+	 	string line;
+	 	getline  (inFile, line ); {
+		 
+//			inFile>>idUsername>>totalIncome >> highestBill >> highestBillID
+//           >> incomeLoc[1] >> incomeLoc[2] >> incomeLoc[3] >> incomeLoc[4]
+//           >> visitorsLoc[1] >> visitorsLoc[2] >> visitorsLoc[3] >> visitorsLoc[4];
 		
 			
 		cout <<setfill('=')<<setw(30)<<" "<<endl
-				<< "ID : "      <<idCounter << " " << endl
-				<< "REVENUE : RM" <<totalIncome << " "<< endl
+				<< "ID               : " <<idUsername << " " << endl
+				<< "REVENUE          : RM"<<totalIncome << " "<< endl
 				<< "HIGHEST PURCHASED: RM"<<highestBill << " "<< endl
-				<< "MOST FAMOUS: "<<highestBillLocation << endl<< endl;
+				<< "MOST FAMOUS      : "<<highestBillLocation << endl<< endl;
 				
 				
-		cout << "KUCHING : RM" <<incomeLoc[1] <<" "<< endl
-				<< "TERENGGANU : RM"<<incomeLoc[2] <<" "<< endl
-				<< "KOTA KINABALU : RM"<<incomeLoc[3] <<" "<< endl
-				<< "LANGKAWI : RM"<<incomeLoc[4] <<endl<< endl;
+		cout    << "KUCHING          : RM" <<incomeLoc[1] <<" "<< endl
+				<< "TERENGGANU       : RM"<<incomeLoc[2] <<" "<< endl
+				<< "KOTA KINABALU    : RM"<<incomeLoc[3] <<" "<< endl
+				<< "LANGKAWI         : RM"<<incomeLoc[4] <<endl<< endl;
 				
-		cout<< "KUCHING : "<<visitorsLoc[1] << " "<< endl
-			   << "TERENGGANU : "<<visitorsLoc[2] << " "<< endl
-			   << "KOTA KINABALU : "<<visitorsLoc[3] << " " << endl
-			   << "LANGKAWI : "<<visitorsLoc[4] <<endl;
+		cout    << "KUCHING          : "<<visitorsLoc[1] << " "<< endl
+			    << "TERENGGANU       : "<<visitorsLoc[2] << " "<< endl
+			    << "KOTA KINABALU    : "<<visitorsLoc[3] << " " << endl
+			    << "LANGKAWI         : "<<visitorsLoc[4] <<endl;
 	
 		
 		inFile.close() ;
 	}
-	ofstream outFile("travel_data.txt") ;
+
+	int FamPlace = getMostPopular(visitorsLoc[1], visitorsLoc[2], visitorsLoc[3], visitorsLoc[4]);
+
+	ofstream outFile("travel_data.txt", ios::app) ;
 	if (outFile) {
-		outFile << " ID : "      <<idCounter << " " 
+		outFile << " ID : "      <<idUsername << " " 
 				<< "REVENUE : RM" <<totalIncome << " "
 				<< "HIGHEST PURCHASED: RM"<<highestBill << " "
 				<< "MOST FAMOUS: "<<highestBillLocation << endl;
@@ -167,7 +178,7 @@ int main()
 			   << "TERENGGANU : "<<visitorsLoc[2] << " "
 			   << "KOTA KINABALU : "<<visitorsLoc[3] << " " 
 			   << "LANGKAWI : "<<visitorsLoc[4] <<endl;
-		  
+	
 		  outFile.close();
 	}
 	
@@ -176,15 +187,13 @@ int main()
     report << "==================================================" << endl;
     report << "     ENJOY&ENJOY TRAVEL: BUSINESS REPORT          " << endl;
     report << "==================================================" << endl;
-    report << "Total Groups Processed   : " << idCounter - 1 << endl;
+    report << "Total Groups Processed   : " << idUsername << endl;
     report << "Total Company Revenue    : RM " << fixed << setprecision(2) << totalIncome << endl;
     report << "Most Popular Destination : " << locationNames[FamPlace]  << " (" << highestBillLocation << " visitors)" << endl;
     report << "All-Time Highest Bill    : Group " << setfill('0') << setw(3) << highestBillID 
            << " (RM " << highestBill << ")" << endl;
     report << "==================================================" << endl;
     report.close();
-
-
 
 }
 
