@@ -28,22 +28,7 @@ int main()
 	int visitorsLoc[5] = {0,0,0,0,0};
 	string locationNames[5]= {"", "Kuching", "Terengganu", "Kota Kinabalu", "Langkawi"};
 	
-	
-	ifstream inFile ("travel_data.txt") ;
-	
-	if (inFile.fail()) {
-		cout<<"The file is unsuccessful to be opened. "<<endl;
-	
-	}
-	
-	else {
-			inFile>>idCounter>>totalIncome >> highestBill >> highestBillID
-           >> incomeLoc[1] >> incomeLoc[2] >> incomeLoc[3] >> incomeLoc[4]
-           >> visitorsLoc[1] >> visitorsLoc[2] >> visitorsLoc[3] >> visitorsLoc[4];
-		inFile.close() ;
-		
-		
-	}
+
 
 	
 
@@ -130,6 +115,41 @@ int main()
 	}
 	int FamPlace = getMostPopular(visitorsLoc[1], visitorsLoc[2], visitorsLoc[3], visitorsLoc[4]);
 //File A: Datas Recorded
+
+		
+		ifstream inFile ("travel_data.txt", ios::app) ;
+	
+	if (inFile.fail()) {
+		cout<<"The file is unsuccessful to be opened. "<<endl;
+	
+	}
+	
+	else {
+			inFile>>idCounter>>totalIncome >> highestBill >> highestBillID
+           >> incomeLoc[1] >> incomeLoc[2] >> incomeLoc[3] >> incomeLoc[4]
+           >> visitorsLoc[1] >> visitorsLoc[2] >> visitorsLoc[3] >> visitorsLoc[4];
+		
+			
+		cout <<setfill('=')<<setw(30)<<" "<<endl
+				<< "ID : "      <<idCounter << " " << endl
+				<< "REVENUE : RM" <<totalIncome << " "<< endl
+				<< "HIGHEST PURCHASED: RM"<<highestBill << " "<< endl
+				<< "MOST FAMOUS: "<<highestBillLocation << endl<< endl;
+				
+				
+		cout << "KUCHING : RM" <<incomeLoc[1] <<" "<< endl
+				<< "TERENGGANU : RM"<<incomeLoc[2] <<" "<< endl
+				<< "KOTA KINABALU : RM"<<incomeLoc[3] <<" "<< endl
+				<< "LANGKAWI : RM"<<incomeLoc[4] <<endl<< endl;
+				
+		cout<< "KUCHING : "<<visitorsLoc[1] << " "<< endl
+			   << "TERENGGANU : "<<visitorsLoc[2] << " "<< endl
+			   << "KOTA KINABALU : "<<visitorsLoc[3] << " " << endl
+			   << "LANGKAWI : "<<visitorsLoc[4] <<endl;
+	
+		
+		inFile.close() ;
+	}
 	ofstream outFile("travel_data.txt") ;
 	if (outFile) {
 		outFile << " ID : "      <<idCounter << " " 
