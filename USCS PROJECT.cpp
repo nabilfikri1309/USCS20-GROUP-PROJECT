@@ -55,13 +55,32 @@ int main()
 
 	cout<<"\nProceed to join this new travel group? (yes/no) "<<endl;
 	cin>>action;
+
+	if ( action!="no" || action!= "yes" ) {
+        cout << " Error. Please use the given number. "<<endl;
+		exit(1) ;
+     }
 	
 	while (action == "yes" || action == "YES") {
 	cout<<"1.Kuching \t2.Terengganu \t3.Kota Kinabalu \t4.Langkawi"<<endl;
 	cout <<"Choose the location of travel by entering this given numbers : "; cin >> place ;
-	if (place <1 || place > 4) {
-		cout<<"Invalid location selection! "<<endl;
-		continue;
+	switch (place)
+	{
+	case 1 :
+		break;
+	
+     case 2 :
+	    break ;
+	    
+     case 3 :
+        break ;
+        
+     case 4 :
+	    break ;
+	    
+	default :
+		cout << " Error. Please use the given number. "<<endl;
+		exit(1) ;
 	}
 	cout<<"\nEnter username ID : ";cin>>idUsername;
 	
@@ -80,8 +99,6 @@ int main()
 //	//days of hotel stay
 	cout<<"\n=============================";
 	cout<<"\nEnter number of days : "; cin>>days;
-	cout<<"Enter number of rooms:  "; cin>>numroom;
-
 	
 	double flight=  flycost(place,adults,kids,teenage);
 	double accomodation = roomcost (place,days);
@@ -180,6 +197,7 @@ int main()
 			   << "LANGKAWI : "<<visitorsLoc[4] <<endl;
 	
 		  outFile.close();
+		  cout<< " The travel data receipt has ready to be view in file travel_data.txt."<<endl;
 	}
 	
 	    // File B: Management Report (Readable text for the manager)
@@ -194,7 +212,7 @@ int main()
            << " (RM " << highestBill << ")" << endl;
     report << "==================================================" << endl;
     report.close();
-
+    cout<< " The business report has ready to be view in file Management_System.txt. "<<endl;
 }
 
 double flycost(int location,int adult,int kids1,int kids2)//calculate flight cost
@@ -224,91 +242,113 @@ double flycost(int location,int adult,int kids1,int kids2)//calculate flight cos
 	
 	}
 
-
-
-double roomcost ( int location, int staynight  ) //calculate room cost 
+double roomcost ( int location, int staynight ) //calculate room cost 
 {
-	
 	char roomtype, more;
+	string location_name;
 	int single, deluxe, suite;
-	double roomprice, accommodation;
+	double roomprice = 0, accomodation = 0;
+	int countS = 0, countD = 0, countU = 0;
 	
 	switch (location)
 	{
-	
 	 case 1 :
-    
 		single = 140;
 		deluxe = 230;
 		suite = 350; 
+		location_name = " Kuching ";
 		break;
 	
      case 2 :
 		single = 150;
 		deluxe = 220;
 		suite = 330;
+		location_name = " Terengganu ";
 	    break ;
 	    
      case 3 :
 		single = 120;
 		deluxe = 180;
 		suite = 275;
+		location_name = " Kota Kinabalu ";
         break ;
         
      case 4 :
-	
 		single = 160;
 		deluxe = 240;
 		suite = 350;
+		location_name = " Langkawi ";
 	    break ;
 	    
 	default :
 		cout << " Error. Please use the given number. "<<endl;
 		exit(1) ;
-		
 	}
 
 
-do {
-    cout << " \n Single (S) | Deluxe (D) | Suite (U) "<<endl;
+do 
+{
+    cout << " \nSingle (S) | Deluxe (D) | Suite (U) "<<endl;
 	
-	cout << " Choose the room type  : " ;
+	cout << "Choose the room type  : " ;
 	cin >> roomtype; 
 
 	if ( roomtype == 'S'||roomtype =='s')
 	{
-		roomprice = single;
+		cout << "Total rooms : ";
+	    cin >> countS;
+	    roomprice = single*countS;
 	}
 	else if ( roomtype == 'D'||roomtype =='d')
 	{
-		roomprice = deluxe ;
+		
+		cout << "Total rooms : ";
+	    cin >> countD;
+	    roomprice = deluxe*countD ;
 	}
 	else if ( roomtype == 'U'||roomtype =='u')
 	{
-		roomprice = suite ;
+		cout << "Total rooms : ";
+	    cin >> countU;
+	    roomprice = suite*countU ;
 	}
 	else 
 	{
 		cout << " Error. Please use the given letter. "<<endl;
+		exit(1);
 	}
 	
-	accommodation += (roomprice * staynight);
 	
-	cout << " \n Would you like to add another room? (Y/N): ";
+	accomodation += (roomprice * staynight);
+	
+	cout << "\nWould you like to add another room? (Y/N): ";
 	cin >> more;
 	
     }
-
- 	while ( more == 'Y' || more == 'y');
-	
-	if ( staynight > 7)
-	{
-		accommodation = accommodation * 0.90;
+    
+    while ( more == 'Y' || more == 'y');
+    
+    
+    cout << "\n------------------------------"<<endl;
+    cout << "\n===============================" << endl;
+    cout << "     ACCOMMODATION INFORMATION         " << endl;
+    cout << "===============================" << endl;
+    cout << "Location : " << location_name << endl;
+    cout << "Days of stay : " << staynight << endl;
+    cout << "Single Rooms : " << countS << endl;
+    cout << "Deluxe Rooms : " << countD << endl;
+    cout << "Suite Rooms  : " << countU << endl;
+    cout << "Total Rooms  : " << (countS + countD + countU) << endl;
+    cout << "===============================" << endl;
+    
+	if ( staynight > 7){
+		accomodation = accomodation * 0.90;
 	}
 	
-	return accommodation ;
 	
+	return accomodation ;
 }
+
 //Most popular location
 int getMostPopular(int k, int t, int kk, int l) {
 	int counts[5] ={0,   k, t, kk, l};
