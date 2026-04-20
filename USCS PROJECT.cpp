@@ -55,11 +55,6 @@ int main()
 
 	cout<<"\nProceed to join this new travel group? (yes/no) "<<endl;
 	cin>>action;
-
-	if ( action!="no" || action!= "yes" ) {
-        cout << " Error. Please use the given number. "<<endl;
-		exit(1) ;
-     }
 	
 	while (action == "yes" || action == "YES") {
 	cout<<"1.Kuching \t2.Terengganu \t3.Kota Kinabalu \t4.Langkawi"<<endl;
