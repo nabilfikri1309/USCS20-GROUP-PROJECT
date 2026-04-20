@@ -53,7 +53,7 @@ int main()
 	cout<<"\n====================================================================";
 
 
-	cout<<"\nProceed to join this new travel group? (yes/no) "<<endl;
+	cout<<"\nProceed to join this new travel group? (yes/no) ";
 	cin>>action;
 	
 	while (action == "yes" || action == "YES") {
@@ -77,6 +77,7 @@ int main()
 		cout << " Error. Please use the given number. "<<endl;
 		exit(1) ;
 	}
+
 	cout<<"\nEnter username ID : ";cin>>idUsername;
 	
 	//number of people
