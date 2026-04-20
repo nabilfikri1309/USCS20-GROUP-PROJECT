@@ -78,7 +78,7 @@ int main()
 		exit(1) ;
 	}
 
-	cout<<"\nEnter username ID : ";cin>>idUsername;
+	cout<<"\nEnter travel group ID : ";cin>>idUsername;
 	
 	//number of people
 	cout<<"\n=============================";
