@@ -53,7 +53,7 @@ int main()
 	cout<<"\n====================================================================";
 
 
-	cout<<"\nProceed to join this new travel group? (yes/no) ";
+	cout<<"\nProceed to join this new travel group? (yes/no) : ";
 	cin>>action;
 	
 	while (action == "yes" || action == "YES") {
