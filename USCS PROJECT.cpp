@@ -201,7 +201,6 @@ int main()
     report << "==================================================" << endl;
     report << "     ENJOY&ENJOY TRAVEL: BUSINESS REPORT          " << endl;
     report << "==================================================" << endl;
-    report << "Total Groups Processed   : " << idUsername << endl;
     report << "Total Company Revenue    : RM " << fixed << setprecision(2) << totalIncome << endl;
     report << "Most Popular Destination : " << locationNames[FamPlace]  << " (" << highestBillLocation << " visitors)" << endl;
     report << "All-Time Highest Bill    : Group " << setfill('0') << setw(3) << highestBillID 
