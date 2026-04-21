@@ -14,6 +14,8 @@ double highestBill = 0.0;
 int highestBillID = 0;
 string highestBillLocation = " ";
 
+int groupID[100];
+int count=0;
 //int VisitorsK=0, VisitorsT=0, VisitorsKK=0, VisitorsL=0;
 
 int main()
@@ -105,7 +107,9 @@ int main()
 	totalIncome += totalCost;
 	incomeLoc[place] += totalCost;
 	visitorsLoc[place] += (adults + teenage + kids);
-	
+
+	groupID[count] =  idUsername;
+	count++;
 	//Highest Group Billing
 	if (totalCost > highestBill) {
 		highestBill = totalCost;
@@ -152,8 +156,11 @@ int main()
 		
 			
 		cout <<setfill('=')<<setw(30)<<" "<<endl
-				<< "ID               : " <<idUsername << " " << endl
-				<< "REVENUE          : RM"<<totalIncome << " "<< endl
+			    << "ID               : ";
+				for (int i = 0; i < count; i++) {
+		cout	<<groupID[i] <<endl
+				<< "                   "; }
+		cout	<< "\nREVENUE          : RM"<<totalIncome << " "<< endl
 				<< "HIGHEST PURCHASED: RM"<<highestBill << " "<< endl
 				<< "MOST FAMOUS      : "<<highestBillLocation << endl<< endl;
 				
@@ -176,8 +183,11 @@ int main()
 
 	ofstream outFile("travel_data.txt", ios::app) ;
 	if (outFile) {
-		outFile << " ID : "      <<idUsername << " " 
-				<< "REVENUE : RM" <<totalIncome << " "
+	 			<< "ID               : ";
+				for (int i = 0; i < count; i++) {
+		outFile	<<groupID[i] <<endl
+				<< "                   "; }
+		outFile	<< "\nREVENUE          : RM"<<totalIncome << " "<< endl
 				<< "HIGHEST PURCHASED: RM"<<highestBill << " "
 				<< "MOST FAMOUS: "<<highestBillLocation << endl;
 				
