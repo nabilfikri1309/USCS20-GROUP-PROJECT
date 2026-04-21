@@ -18,7 +18,7 @@ string highestBillLocation = " ";
 
 int main()
 {
-	int place, roomtype ;//(1/2/3/4)
+	int place ;//(1/2/3/4)
 	int days,numroom;//for accomodation calculation
 	int adults, teenage, kids;
 	int idUsername;
