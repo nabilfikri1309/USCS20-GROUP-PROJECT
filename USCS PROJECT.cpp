@@ -19,7 +19,7 @@ string highestBillLocation = " ";
 int main()
 {
 	int place ;//(1/2/3/4)
-	int days,numroom;//for accomodation calculation
+	int days;//for accomodation calculation
 	int adults, teenage, kids;
 	int idUsername;
 	//double income_KK = 0.0, income_K=0.0, income_T=0.0, income_L=0.0;
